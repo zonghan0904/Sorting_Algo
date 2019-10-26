@@ -23,7 +23,8 @@ int main(){
 	//SelectionSort(testcase);
 	//BubbleSort(testcase);
 	//MergeSort(testcase, 0, testcase.size()-1);
-	HeapSort(testcase);
+	//HeapSort(testcase);
+	QuickSort(testcase, 0, testcase.size()-1);
 // #############	Sorting Algorithm	#############
 
 	cout << "## AFTER  SORTING ##" << endl; 	
@@ -32,7 +33,6 @@ int main(){
 	}
 	cout << "\n";
 	cout << "####################\n"<< endl;
-
 
 	return 0;
 }

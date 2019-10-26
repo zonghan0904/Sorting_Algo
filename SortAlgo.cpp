@@ -35,6 +35,25 @@ void Max_Heapify(vector<int> &V, int index, int size){
 	}  
 }
 
+int RandomInteger(int low, int high){
+	srand(0);
+	return rand()%(high-low+1) + low;
+}
+
+int Partition(vector<int> &V, int l, int r){
+	int randnum = RandomInteger(l, r);
+	swap(V[randnum], V[r]);
+	int i = l-1, x = V[r];
+	for (int j = l; j < r; j++){
+		if (V[j] <= x){
+			i++;
+			swap(V[i], V[j]);
+		}
+	}
+	swap(V[++i], V[r]);
+	return i;
+}
+
 // ####################		comparison sort		####################
 
 void InsertionSort(vector<int> & V){
@@ -66,10 +85,16 @@ void SelectionSort(vector<int> &V){
 
 void BubbleSort(vector<int> &V){
 	int n = V.size();
+	bool sorted;
 	for (int i = n-1; i > 0; i--){
+		sorted = true;
 		for (int j = 0; j < i; j++){
-			if (V[j] > V[j+1]) swap(V[j], V[j+1]);
+			if (V[j] > V[j+1]){
+				swap(V[j], V[j+1]);
+				sorted = false;
+			}
 		}
+		if (sorted) break;
 	}
 }
 
@@ -91,8 +116,12 @@ void HeapSort(vector<int> &V){
 	}
 }
 
-void QuickSort(vector<int> &V){
-	//TODO
+void QuickSort(vector<int> &V, int l, int r){
+	if (l < r){
+		int m = Partition(V, l, r);
+		QuickSort(V, l, m-1);
+		QuickSort(V, m+1, r);
+	}
 }
 
 // ###################	  non comparison sort	 ###################
