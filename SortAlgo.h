@@ -18,6 +18,8 @@ int  RandomInteger(int low, int high);
 
 int  Partition(vector<int> &V, int l, int r);
 
+int  GetDigit(int num);
+
 void InsertionSort(vector<int> &V);
 
 void SelectionSort(vector<int> &V);
@@ -29,5 +31,11 @@ void MergeSort(vector<int> &V, int l, int r);
 void HeapSort(vector<int> &V);
 
 void QuickSort(vector<int> &V, int l, int r);
+
+void CountingSort(vector<int> &V, int high);
+
+void RadixSort(vector<int> &V, int digit);
+
+void BucketSort(vector<int> &V, int digit);
 
 # endif

@@ -54,6 +54,16 @@ int Partition(vector<int> &V, int l, int r){
 	return i;
 }
 
+int GetDigit(int num){
+	int digit = 0;
+	if (num == 0) return 1;
+	while (num){
+		digit++;
+		num /= 10;
+	}
+	return digit;
+}
+
 // ####################		comparison sort		####################
 
 void InsertionSort(vector<int> & V){
@@ -125,3 +135,71 @@ void QuickSort(vector<int> &V, int l, int r){
 }
 
 // ###################	  non comparison sort	 ###################
+
+void CountingSort(vector<int> &V, int high){
+	vector<int> box(high, 0);
+	vector<int> copy(V.begin(), V.end());
+	vector<int>::iterator it;
+	vector<int>::reverse_iterator r_it;
+	for (it = copy.begin(); it != copy.end(); it++){
+		box[*it]++;
+	}
+	for (it = box.begin()+1; it != box.end(); it++){
+		*it += *(it-1);
+	}
+	for (r_it = copy.rbegin(); r_it != copy.rend(); r_it++){
+		V[box[*r_it]-1] = *r_it;
+		box[*r_it]--;
+	}
+}
+
+void RadixSort(vector<int> &V, int digit){
+	vector<int> copy;
+	vector<int> box;
+	vector<int>::iterator it;
+	vector<int>::reverse_iterator r_it;
+	int mul = 1;
+	for (int i = 0; i < digit; i++){
+		box = vector<int> (10, 0);
+		copy = V;
+		for (it = copy.begin(); it != copy.end(); it++){
+			box[*it/mul%10]++;
+		}
+		for (it = box.begin()+1; it != box.end(); it++){
+			*it += *(it-1);
+		}
+		for (r_it = copy.rbegin(); r_it != copy.rend(); r_it++){
+			V[box[*r_it/mul%10]-1] = *r_it;
+			box[*r_it/mul%10]--;
+		}
+		mul *= 10;
+	}
+}
+
+void BucketSort(vector<int> &V, int digit){
+	vector<vector<int> > bucket(10, vector<int>());
+	int max = 1;
+	while (digit > 1){
+		max *= 10;
+		digit--;
+	} 
+	vector<int>::iterator it;
+	vector<int>::iterator s_it;
+	vector<vector<int> >::iterator v_it;
+	for (it = V.begin(); it != V.end(); it++){
+		bucket[*it/max].push_back(*it);
+	}
+	for (v_it = bucket.begin(); v_it != bucket.end(); v_it++){
+		if (!v_it->empty()) InsertionSort(*v_it);
+	}
+	v_it = bucket.begin();
+	it = V.begin();
+	while (it != V.end()){
+		while (v_it != bucket.end() && v_it->empty()) v_it++;
+		for (s_it = v_it->begin(); s_it != v_it->end(); s_it++){
+			*it = *s_it;
+			it++;
+		}
+		v_it++;
+	}
+}
